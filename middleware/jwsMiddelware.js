@@ -25,7 +25,7 @@ const authenticate = async (req, res, next) => {
       id: user._id,
       name: user.name,
     };
- console.log("Authenticated user:", req.user);
+ //console.log("Authenticated user:", req.user);
     next(); // Call the next middleware/route handler
   } catch (err) {
     res.status(401).json({ message: "Invalid or expired token" });

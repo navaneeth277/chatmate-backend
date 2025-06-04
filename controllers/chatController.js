@@ -13,7 +13,7 @@ const dateModel = new ChatGoogleGenerativeAI({
 
 export const handlePrompt = async (req, res) => {
   const { input } = req.body;
-  console.log("Received input:", input);
+  //console.log("Received input:", input);
 
   if (!process.env.GOOGLE_API_KEY) {
     return res.status(500).json({ success: false, error: "Missing API key" });
@@ -223,7 +223,7 @@ export const getEntriesWithTaskTag = async (req, res) => {
     userId: userid,
      
     });
-console.log("Entries with task tag:", entries);
+//console.log("Entries with task tag:", entries);
     res.json({ success: true, data: entries });
   } catch (error) {
     console.error("Get Tasks Error:", error.message || error);
