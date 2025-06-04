@@ -9,7 +9,7 @@ const router = express.Router();
 // User signup
 router.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
-  console.log(req.body)
+  //console.log(req.body)
 
   if (!name || !email || !password) {
     return res.status(400).json({ message: "Missing required fields" });
@@ -39,7 +39,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   
-console.log(req.body)
+//console.log(req.body)
   const user = await User.findOne({ email });
   if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
