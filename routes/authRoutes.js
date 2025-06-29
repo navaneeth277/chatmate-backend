@@ -38,20 +38,34 @@ router.post("/signup", async (req, res) => {
 // User login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  
-//console.log(req.body)
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+  console.log("Login attempt:", req.body);
 
-  // Create JWT token after successful login
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  try {
+    const user = await User.findOne({ email });
 
-  res.json({ token }); // Send the JWT token
+    if (!user) {
+      console.log(`User not found with email: ${email}`);
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      console.log(`Invalid password attempt for user: ${email}`);
+      return res.status(400).json({ message: "Invalid password" });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({ token });
+
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 router.get("/profile", jwsMiddeware, (req, res) => {
   const { id, name } = req.user;
