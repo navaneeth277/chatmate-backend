@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
 
     if (!isMatch) {
       console.log(`Invalid password attempt for user: ${email}`);
-      return res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({ message: "Invalid Credentials" });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
